@@ -64,8 +64,6 @@ impl MessageKey {
     }
 }
 
-// -- Wire-level structs for blueberry_serde::deserialize_message ----------
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct IdFields {
     pub id: u32,
@@ -88,8 +86,6 @@ pub struct VersionFields {
 pub struct TestFields {
     pub filename: String,
 }
-
-// -- Enums ----------------------------------------------------------------
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum HwType {
@@ -268,17 +264,5 @@ impl Message {
         key: MessageKey,
     ) -> Result<Vec<u8>, blueberry_serde::Error> {
         serialize_packet(&[&empty_message(module.as_u16(), key.as_u16())])
-    }
-
-    #[allow(unused)]
-    pub fn name(&self) -> &'static str {
-        match self {
-            Self::Id { .. } => "ID",
-            Self::AppData { .. } => "APP_DATA",
-            Self::Version { .. } => "VERSION",
-            Self::WhoseThere => "WHOS_THERE",
-            Self::Test { .. } => "TEST",
-            Self::Unknown { .. } => "UNKNOWN",
-        }
     }
 }
