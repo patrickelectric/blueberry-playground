@@ -119,15 +119,8 @@ impl From<u16> for HwType {
 impl fmt::Display for HwType {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::Sfdq => write!(f, "SFDQ"),
-            Self::BlueServo => write!(f, "BlueServo"),
-            Self::Lumen => write!(f, "Lumen"),
-            Self::Nucleo => write!(f, "Nucleo"),
-            Self::BlueEsc => write!(f, "BlueESC"),
-            Self::Gigaboard => write!(f, "Gigaboard"),
-            Self::BlueBridge => write!(f, "BlueBridge"),
-            Self::Undefined => write!(f, "Undefined"),
             Self::Unknown(v) => write!(f, "Unknown(0x{v:04X})"),
+            _ => write!(f, "{:?}", self),
         }
     }
 }
