@@ -182,7 +182,9 @@ pub enum Message {
         floats: Vec<f32>,
     },
     Version {
+        #[debug("{:#010x}", firmware_version)]
         firmware_version: u32,
+        #[debug("{:#010x}", hardware_rev)]
         hardware_rev: u8,
         hardware_type: HwType,
         mcu_type: McuType,
@@ -192,7 +194,9 @@ pub enum Message {
         filename: String,
     },
     Unknown {
+        #[debug("{:#010x}", module)]
         module: u16,
+        #[debug("{:#010x}", key)]
         key: u16,
         body: Vec<u8>,
     },
