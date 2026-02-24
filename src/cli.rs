@@ -10,12 +10,12 @@ pub struct Cli {
     #[arg(short, long, default_value = "/dev/ttyACM0")]
     pub port: String,
 
-    /// Baud rate
-    #[arg(short, long, default_value_t = 115_200)]
+    /// Baud rate (only with --port)
+    #[arg(short, long, default_value_t = 115_200, requires = "port")]
     pub baudrate: u32,
 
     /// Connect via UDP to a device at this IP address (e.g. 192.168.31.28 or 192.168.31.28:16962)
-    #[arg(short, long)]
+    #[arg(short, long, conflicts_with_all = ["port", "baudrate"])]
     pub ip: Option<String>,
 
     /// Discover all Blueberry devices on serial ports and local networks
