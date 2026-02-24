@@ -1,8 +1,10 @@
 mod cli;
 mod communication;
+mod finder;
 mod messages;
 
 use cli::Cli;
+use finder::Finder;
 use log::info;
 use messages::{Message, MessageKey, Module};
 
@@ -10,6 +12,10 @@ use messages::{Message, MessageKey, Module};
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::get();
     cli.init_logger();
+
+    if cli.finder {
+        return Finder::get().run().await;
+    }
 
     let mut conn = if let Some(ref ip) = cli.ip {
         communication::Connection::open_udp(ip).await?
