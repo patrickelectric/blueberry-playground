@@ -4,7 +4,7 @@ use once_cell::sync::OnceCell;
 static INSTANCE: OnceCell<Cli> = OnceCell::new();
 
 #[derive(Parser, Debug)]
-#[command(name = "potato", about = "Blueberry protocol serial tool")]
+#[command(name = "playground", about = "Blueberry protocol playground")]
 pub struct Cli {
     /// Serial port path
     #[arg(short, long, default_value = "/dev/ttyACM0")]
