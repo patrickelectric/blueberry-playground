@@ -14,6 +14,10 @@ pub struct Cli {
     #[arg(short, long, default_value_t = 115_200)]
     pub baudrate: u32,
 
+    /// Connect via UDP to a device at this IP address (e.g. 192.168.31.28 or 192.168.31.28:16962)
+    #[arg(short, long)]
+    pub ip: Option<String>,
+
     /// Enable verbose/debug output
     #[arg(short, long)]
     pub verbose: bool,
