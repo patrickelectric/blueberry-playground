@@ -11,21 +11,25 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::get();
     cli.init_logger();
 
-    info!("Connecting to {} @ {}", cli.port, cli.baudrate);
-    let (rx, mut tx) = communication::open(&cli.port, cli.baudrate)?;
+    let mut conn = if let Some(ref ip) = cli.ip {
+        communication::Connection::open_udp(ip).await?
+    } else {
+        communication::Connection::open_serial(&cli.port, cli.baudrate)?
+    };
 
     let requests = vec![
         (Module::Blueberry, MessageKey::Id),
         (Module::Blueberry, MessageKey::Version),
         (Module::Blueberry, MessageKey::WhoseThere),
         (Module::Test, MessageKey::Test),
-        // (Module::Blueberry, MessageKey::AppData), // get's the MCU stuck
+        // (Module::Blueberry, MessageKey::AppData), // Restarts the MCU
     ];
 
     for request in &requests {
         info!("Sending request: {:?}", request);
-        communication::send_all(&mut tx, &[Message::request_packet(request.0, request.1)?]).await?;
+        conn.send_all(&[Message::request_packet(request.0, request.1)?])
+            .await?;
     }
 
-    communication::recv_loop(rx).await
+    conn.recv_loop().await
 }
