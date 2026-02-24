@@ -6,8 +6,8 @@ use tokio_serial::SerialPortBuilderExt;
 
 use crate::messages::Message;
 
-const PREAMBLE: [u8; 4] = [0x42, 0x6C, 0x75, 0x65];
-const DEFAULT_UDP_PORT: u16 = 16962;
+pub(crate) const PREAMBLE: [u8; 4] = [0x42, 0x6C, 0x75, 0x65];
+pub(crate) const DEFAULT_UDP_PORT: u16 = 16962;
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
@@ -115,7 +115,7 @@ fn drain_packets(buf: &mut Vec<u8>) {
 /// Try to extract the next complete packet from `buf`.
 /// Consumes the bytes on success, or discards garbage bytes before the next preamble.
 /// Returns `None` when no complete packet is available yet.
-fn extract_packet(buf: &mut Vec<u8>) -> Option<Vec<Message>> {
+pub(crate) fn extract_packet(buf: &mut Vec<u8>) -> Option<Vec<Message>> {
     let start = buf.windows(4).position(|w| w == PREAMBLE)?;
 
     if start > 0 {
