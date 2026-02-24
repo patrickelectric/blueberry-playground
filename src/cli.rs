@@ -18,6 +18,10 @@ pub struct Cli {
     #[arg(short, long)]
     pub ip: Option<String>,
 
+    /// Discover all Blueberry devices on serial ports and local networks
+    #[arg(short, long, conflicts_with_all = ["port", "baudrate", "ip"])]
+    pub finder: bool,
+
     /// Enable verbose/debug output
     #[arg(short, long)]
     pub verbose: bool,
